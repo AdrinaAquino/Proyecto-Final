@@ -6,26 +6,31 @@ export default function CardsJugadores() {
       <div className="relative border border-blue-300 rounded-xl bg-blue-50 w-70  h-fit p-1">
         <div className="rounded-xl overflow-hidden h-35">
           <img
-            src={`/categorias/${"category?.id"}.png`}
+            src={`/jugador.jpg`}
             alt=""
             className="object-cover h-full w-full"
           />
         </div>
         <p>
-          <strong>Horas de servicio reportadas:</strong>
+          <strong>Nombres:</strong>
         </p>
-        <p>{"amount_reported"} horas</p>
+        <p>{"nombres"}</p>
         <p>
-          <strong>Descripción de la actividad:</strong>
+          <strong>Apellidos:</strong>
         </p>
-        <p>{"description"}</p>
+        <p>{"apellidos"}</p>
         <p>
-          <strong>Tipo de actividad:</strong>
+          <strong>Rama:</strong>
         </p>
-        <p>{"category.name"}</p>
+        <p>{"rama"}</p>
         <p>
-          <strong>Documento:</strong>
+          <strong>Categoria:</strong>
         </p>
+        <p>{"categoria"}</p>
+        <p>
+          <strong>Posicion en cancha:</strong>
+        </p>
+        <p>{"posicion"}</p>
       </div>
     </div>
   );

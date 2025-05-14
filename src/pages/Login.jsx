@@ -3,16 +3,16 @@ import React from "react";
 export default function Login() {
   return (
     <div>
-      <div className="flex flex-col h-screen">
-        <div className=" flex items-center justify-center h-1/3 md:h-full">
+      <div className="flex flex-col h-screen items-center">
+        <div className=" flex items-center justify-center h-30 w-full md:h-full">
           <img
             src="fondo1.png"
-            alt="Login Illustration"
-            className="w-full h-full object-cover"
+            alt=""
+            className="w-full h-full object-cover opacity-60"
           />
         </div>
-        {/* Formulario Login */}
-        <div className="flex flex-col justify-center items-center bg-white h-2/3 shadow-lg p-6 md:w-100 md:absolute md:left-1/2 md:top-50 md:-translate-x-1/2">
+        <div className="flex flex-col justify-center items-center w-75 md:h-120 bg-[#deefff9f] rounded-lg shadow-md shadow-cyan-900 p-6 md:w-100 md:absolute md:left-1/2 md:top-50 md:-translate-x-1/2">
+          <img src="escudo1.png" alt="" className="w-20 md:w-40" />
           <h2 className="text-2xl font-bold mb-6">Iniciar Sesión</h2>
           <form className="w-full max-w-sm">
             <div className="mb-4">
@@ -49,7 +49,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+              className="w-full py-2 px-4 rounded-md bg-[#9cebef91] hover:bg-[#d7e88ba5] border-2"
             >
               Ingresar
             </button>
