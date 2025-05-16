@@ -1,31 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../axios/auth/login"; // ← tu llamada al backend
+import { login } from "../axios/auth/login";
 
 export default function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   async function handleLogin(e) {
     e.preventDefault();
-    setError(""); // limpia errores previos
-
+    setError("");
+    setLoading(true);
     const formData = new FormData(e.target);
     const credentials = Object.fromEntries(formData.entries());
 
     try {
-      const res = await login(credentials); // { status, token, user }
+      const res = await login(credentials);
       if (res.status !== "ok") throw new Error("Credenciales incorrectas");
 
-      localStorage.setItem("token", res.token); // <-- guarda sesión
-      navigate("/jugadores", { replace: true }); // redirige al área privada
+      localStorage.setItem("token", res.token);
+      navigate("/jugadores", { replace: true });
     } catch (err) {
       setError(err.message || "Error al iniciar sesión");
+      setLoading(false);
     }
   }
 
   return (
     <div>
+      {loading && <h1>Loading...</h1>}
       <div className="flex flex-col h-screen items-center">
         <div className=" flex items-center justify-center h-30 w-full md:h-full">
           <img
@@ -70,11 +72,16 @@ export default function Login() {
                 required
               />
             </div>
+            {error && (
+              <p className="text-red-600 text-sm font-medium mb-4">
+                Usuario o contraseña incorrectos
+              </p>
+            )}
             <button
               type="submit"
               className="w-full py-2 px-4 rounded-md bg-[#9cebef91] hover:bg-[#d7e88ba5] border-2"
             >
-              Ingresar
+              {loading ? "Ingresando..." : "Ingresar"}
             </button>
           </form>
         </div>
