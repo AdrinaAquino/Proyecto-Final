@@ -1,16 +1,57 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+
 export default function NavBar() {
-  const [open, setOpen] = useState(false);
-  const toggleMenu = () => setOpen(!open);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsAuth(Boolean(localStorage.getItem("token")));
+  }, [location.pathname]);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuth(false);
+    navigate("/", { replace: true });
+  };
+
+  const publicLinks = (
+    <>
+      <NavItem to="/" label="Home" />
+      <NavItem to="/acercadenosotros" label="Acerca de Nosotros" />
+      <NavItem to="/login" label="Login" />
+    </>
+  );
+
+  const privateLinks = (
+    <>
+      <NavItem to="/jugadores" label="Jugadores" />
+      <NavItem to="/entrenadores" label="Entrenadores" />
+      <NavItem to="/profile" label="Perfil" />
+      <button
+        onClick={handleLogout}
+        className="font-bold hover:text-yellow-400"
+      >
+        Salir
+      </button>
+    </>
+  );
+
   return (
     <div>
-      <nav className="bg-[#7375e7] text-white p-4 shadow-md ">
+      {/* Barra superior */}
+      <nav className="bg-[#7375e7] text-white p-4 shadow-md">
         <div className="flex items-center justify-between">
-          <h1 className="flex text-xl font-bold">
+          <h1 className="flex text-xl font-bold items-center gap-2">
             <img src="escudo1.png" alt="" className="w-10" />
             Escuela de Voleibol Candelaria
           </h1>
+
+          {/* Hamburguesa móvil */}
           <button className="md:hidden" onClick={toggleMenu}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -27,85 +68,40 @@ export default function NavBar() {
               />
             </svg>
           </button>
-          {/* Desktop */}
+
+          {/* Menú desktop */}
           <ul className="hidden md:flex space-x-6">
-            <li>
-              <Link to="/" className="font-semibold hover:text-yellow-400">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/acercadenosotros"
-                className="font-semibold hover:text-yellow-400"
-              >
-                Acerca de Nosotros
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/jugadores"
-                className="font-semibold hover:text-yellow-400"
-              >
-                Jugadores
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/entrenadores"
-                className="font-semibold hover:text-yellow-400"
-              >
-                Entrenadores
-              </Link>
-            </li>
-            <li>
-              <Link to="/login" className="font-semibold hover:text-yellow-400">
-                Login
-              </Link>
-            </li>
+            {isAuth ? privateLinks : publicLinks}
           </ul>
         </div>
       </nav>
-      {/* Movil */}
-      {open && (
+
+      {/* Menú móvil */}
+      {menuOpen && (
         <div className="z-10 md:hidden mt-4 w-45 rounded-2xl bg-[#5496e1c4] text-white font-semibold h-80 absolute right-0 top-11 cursor-pointer">
-          <Link
-            to="/"
-            className="block w-full px-4 py-2 hover:bg-[#7375e7a5]"
-            onClick={toggleMenu}
-          >
-            Home
-          </Link>
-          <Link
-            to="/acercadenosotros"
-            className="block px-4 py-2 hover:bg-[#7375e7a5]"
-            onClick={toggleMenu}
-          >
-            Acerca de Nosotros
-          </Link>
-          <Link
-            to="/jugadores"
-            className="block px-4 py-2 hover:bg-[#7375e7a5]"
-            onClick={toggleMenu}
-          >
-            Jugadores
-          </Link>
-          <Link
-            to="/entrenadores"
-            className="block px-4 py-2 hover:bg-[#7375e7a5]"
-            onClick={toggleMenu}
-          >
-            Entrenadores
-          </Link>
-          <Link
-            to="/login"
-            className="block px-4 py-2 hover:bg-[#7375e7a5]"
-            onClick={toggleMenu}
-          >
-            Login
-          </Link>
+          {(isAuth ? privateLinks : publicLinks)?.props?.children.map(
+            (child, idx) =>
+              React.cloneElement(child, {
+                key: idx,
+                onClick: () => {
+                  toggleMenu();
+                  child.props.onClick && child.props.onClick();
+                },
+                className: "block w-full px-4 py-2 hover:bg-[#7375e7a5]",
+              })
+          )}
         </div>
       )}
     </div>
+  );
+}
+
+function NavItem({ to, label, ...rest }) {
+  return (
+    <li {...rest}>
+      <Link to={to} className="font-semibold hover:text-yellow-400">
+        {label}
+      </Link>
+    </li>
   );
 }
