@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function CardsEntrenadores() {
+export default function CardsEntrenadores({ entrenador }) {
+  const { firstname, midlename, lastName, secondlastname, role_id } =
+    entrenador || {};
   return (
     <div>
       <div className="relative border border-blue-300 rounded-xl bg-blue-50 w-70  h-fit p-1">
@@ -14,19 +16,19 @@ export default function CardsEntrenadores() {
         <p>
           <strong>Nombres:</strong>
         </p>
-        <p>{"nombres"}</p>
+        <p>
+          {firstname} {midlename}
+        </p>
         <p>
           <strong>Apellidos:</strong>
         </p>
-        <p>{"apellidos"}</p>
         <p>
-          <strong>Rama:</strong>
+          {lastName} {secondlastname}
         </p>
-        <p>{"rama"}</p>
         <p>
           <strong>Categoria:</strong>
         </p>
-        <p>{"categoria"}</p>
+        <p>{role_id === 2 ? "Entrenador" : ""}</p>
       </div>
     </div>
   );

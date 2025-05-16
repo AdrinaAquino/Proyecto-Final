@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/layouts/AuthLayout";
 import Profile from "./pages/Profile";
+import NewUser from "./pages/NewUser";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/jugadores" element={<Jugadores />} />
           <Route path="/entrenadores" element={<Entrenadores />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/newuser" element={<NewUser />} />
         </Route>
       </Routes>
     </>

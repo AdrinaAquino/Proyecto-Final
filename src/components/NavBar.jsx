@@ -32,6 +32,9 @@ export default function NavBar() {
       <NavItem to="/jugadores" label="Jugadores" />
       <NavItem to="/entrenadores" label="Entrenadores" />
       <NavItem to="/profile" label="Perfil" />
+      <NavItem to="/newuser" label="Nuevo Usuario" />
+
+      {/* Botón de cerrar sesión */}
       <button
         onClick={handleLogout}
         className="font-bold hover:text-yellow-400"
